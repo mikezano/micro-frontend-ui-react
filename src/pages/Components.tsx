@@ -6,7 +6,6 @@ import { Dropdowns } from "../component-examples/Dropdowns";
 import { TextFields } from "../component-examples/TextFields";
 import { Toggles } from "../component-examples/Toggles";
 import { IComponentExampleConfiguration } from "../interface/ComponentExamples";
-import "../scss/Components.scss";
 
 interface ComponenProps {
   description: string;
@@ -52,6 +51,7 @@ export const Components = () => {
       break;
   }
 
+  console.log(`Type: ${type}`);
   return (
     <div className="components">
       <h1 className="components__title">{humanizeTitle}</h1>

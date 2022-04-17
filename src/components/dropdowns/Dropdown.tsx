@@ -1,19 +1,34 @@
 import { useEffect, useState } from "react";
 import { CSSTransition } from "react-transition-group"; // ES6
-import "../../scss/Dropdown.scss";
+import { IItem } from "../../interface/interface";
+import { IDropdownProps } from "../../interface/Props";
 
-type DropdownProps = {
-  onSelectItem: (item: string) => void;
-  items: string[];
-  name?: string;
-};
+export const Dropdown = <T extends IItem>({
+  children,
+  onSelectItem,
+  items,
+  name,
+}: IDropdownProps<T>) => {
+  const dd: string = "dropdown";
 
-export const Dropdown = ({ onSelectItem, items, name }: DropdownProps) => {
   const [defaultName, setDefaultName] = useState(name);
   const [selectedItem, setSelectedItem] = useState("Dropdown");
   const [isShowingItems, setIsShowingItems] = useState(false);
 
-  const toggleItems = () => {
+  const closeDropdown = (event: MouseEvent) => {
+    const result = (event.target as any).closest(`.${dd}__list`);
+    if (result !== null) return; //meaning you clicked inside the list
+    document.removeEventListener("click", closeDropdown, true);
+    setIsShowingItems(false);
+  };
+
+  const toggleItems = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    // setIsShowingItems(!isShowingItems);
+    const isItemClicked =
+      (e.target as any).closest(`.${dd}__list-item`) !== null;
+    if (isItemClicked) return;
+
+    document.addEventListener("click", closeDropdown, true);
     setIsShowingItems(!isShowingItems);
   };
 
@@ -25,33 +40,24 @@ export const Dropdown = ({ onSelectItem, items, name }: DropdownProps) => {
     onSelectItem(innerText);
   };
 
-  const onEnterTest = (e: any) => {};
-
   return (
-    <div className="dropdown" onClick={toggleItems}>
-      <div className="dropdown__selected-item">
-        <span className="dropdown__selected-text">
+    <div className={dd} onClick={toggleItems}>
+      <div className={`${dd}__selected-item`}>
+        <span className={`${dd}__selected-text`}>
           {defaultName ? defaultName : selectedItem}
         </span>
-        <span className="dropdown__caret oi" data-glyph="caret-bottom"></span>
+        <span className={`${dd}__caret oi`} data-glyph="caret-bottom"></span>
       </div>
 
-      <CSSTransition
-        mountOnEnter={true}
-        unmountOnExit={true}
-        in={isShowingItems}
-        timeout={500}
-        classNames="my-node"
-        onEnter={onEnterTest}
-      >
-        <ul className="dropdown__list" onClick={(e) => selectItem(e)}>
-          {items.map((item: string) => (
-            <li className="dropdown__list-item" key={item}>
-              {item}
+      {isShowingItems && (
+        <ul className={`${dd}__list`} onClick={(e) => selectItem(e)}>
+          {items.map((item: T) => (
+            <li className={`${dd}__list-item`} key={`${item.id}-${item.value}`}>
+              {children ? children(item) : item.value}
             </li>
           ))}
         </ul>
-      </CSSTransition>
+      )}
     </div>
   );
 };
