@@ -18,6 +18,9 @@ const prodConfig = {
       exposes: {
         "./ReactApp": "./src/bootstrap",
       },
+      remotes: {
+        styles: `styles@${domain}/Styles/latest/remoteEntry.js`,
+      },
       shared: packageJson.dependencies,
     }),
   ],
