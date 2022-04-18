@@ -25,5 +25,5 @@ jobs:
       - run: npm run build
       - run: pwd
       - run: ls -a
-      - run: aws s3 sync dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}/helloReact/latest
-      - run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_DISTRIBUTION_ID }} --paths "/helloReact/latest/index.html"
+      - run: aws s3 sync dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}/ReactApp/latest
+      - run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_DISTRIBUTION_ID }} --paths "/ReactApp/latest/index.html"
