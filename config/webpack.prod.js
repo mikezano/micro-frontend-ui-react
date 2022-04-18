@@ -9,17 +9,17 @@ const prodConfig = {
   mode: "production",
   output: {
     filename: "[name].[contenthash].js",
-    publicPath: "/helloReact/latest/",
+    publicPath: "/ReactApp/latest/",
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: "teact",
+      name: "react",
       filename: "remoteEntry.js",
       exposes: {
         "./ReactApp": "./src/bootstrap",
       },
       remotes: {
-        styles: `styles@${domain}/helloStyles/latest/remoteEntry.js`,
+        styles: `styles@${domain}/StylesApp/latest/remoteEntry.js`,
       },
       shared: packageJson.dependencies,
     }),
