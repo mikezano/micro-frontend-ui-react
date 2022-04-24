@@ -51,7 +51,7 @@ export const Dropdowns: IComponentExampleConfiguration[] = [
     description: "Select multiple items",
     jsx: (
       <DropdownCheckbox
-        items={randomizeIds(fruitItemCheckboxes)}
+        items={fruitItemCheckboxes}
         name={defaultMessage}
         onSelectItem={(item: IFruitItemCheckbox) => {
           console.log(item);
@@ -64,7 +64,7 @@ export const Dropdowns: IComponentExampleConfiguration[] = [
     description: "Select multiple items",
     jsx: (
       <DropdownCheckbox
-        items={randomizeIds(fruitItemCheckboxes)}
+        items={fruitItemCheckboxes}
         name={defaultMessage}
         onSelectItem={(item: IFruitItemCheckbox) => {
           console.log(item);

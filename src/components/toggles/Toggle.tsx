@@ -1,28 +1,33 @@
-interface ToggleProps {
-  onSelect: (option: string, e: any) => void;
-  optionA: string;
-  optionB: string;
-}
+import { useState } from "react";
+import { IItem } from "../../interface/interface";
+import { IToggleProps } from "../../interface/Props";
 
-export const Toggle = ({ onSelect, optionA, optionB }: ToggleProps) => {
+export const Toggle = <T extends IItem>({
+  onSelectItem,
+  children,
+  items,
+}: IToggleProps<T>) => {
+  const [selectedOption, setSelectedOption] = useState(null);
+
+  const select = (option: T) => {
+    setSelectedOption(option.value);
+    onSelectItem(option);
+  };
+
   return (
-    <div className="btn-group" role="group" aria-label="Basic example">
-      <button
-        type="button"
-        className="btn btn-secondary"
-        onClick={(e) => onSelect(optionA, e)}
-        data-cy={optionA}
-      >
-        {optionA}
-      </button>
-      <button
-        type="button"
-        className="btn btn-secondary"
-        onClick={(e) => onSelect(optionB, e)}
-        data-cy={optionB}
-      >
-        {optionB}
-      </button>
+    <div className="toggles" role="group" aria-label="Basic example">
+      {items.map((item: T) => (
+        <button
+          className={`toggles__option ${
+            selectedOption === item.value ? "toggles__option--active" : ""
+          }`}
+          key={item.id}
+          onClick={select.bind(this, item)}
+          data-cy={item}
+        >
+          {children ? children(item) : item.value}
+        </button>
+      ))}
     </div>
   );
 };

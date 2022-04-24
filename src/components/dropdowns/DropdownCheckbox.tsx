@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { CSSTransition } from "react-transition-group"; // ES6
 import { IItem, IItemCheckbox } from "../../interface/interface";
 import { IDropdownProps } from "../../interface/Props";
@@ -50,20 +50,11 @@ export const DropdownCheckbox = <T extends IItemCheckbox>({
     setAllItems(updatedItems);
   };
 
-  const attributes = useMemo(() => {
-    const selectedItems = allItems.filter((item: T) => item.isChecked);
-    return {
-      selectedCount: selectedItems.length,
-      title: selectedItems.map((item: T) => item.value).join("\n"),
-    };
-  }, [allItems]);
-
   return (
-    <div className={`${ddcb}`} onClick={toggleItems} title={attributes.title}>
+    <div className={`${ddcb}`} onClick={toggleItems}>
       <div className={`${ddcb}__selected-item`}>
         <span className={`${ddcb}__selected-text`}>
-          {defaultName ? defaultName : selectedItem} ({attributes.selectedCount}
-          )
+          {defaultName ? defaultName : selectedItem}
         </span>
         <span className={`${ddcb}__caret oi`} data-glyph="caret-bottom"></span>
       </div>
